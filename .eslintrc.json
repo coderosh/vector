@@ -17,6 +17,7 @@
     "no-redeclare": "off",
     "@typescript-eslint/no-useless-constructor": ["error"],
     "no-use-before-define": "off",
+    "no-dupe-class-members": "off",
     "@typescript-eslint/no-use-before-define": [
       "error",
       { "typedefs": false, "functions": false }
