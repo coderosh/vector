@@ -92,13 +92,14 @@ class Vector {
     )
   }
 
-  lerp(vec: Vector, amount?: number): Vector
-  lerp(x: number, y: number, z?: number, amount?: number): Vector
-  lerp(x: any = 0, y: number = 0, z: number = 0, amount = 0.5): Vector {
-    if (x instanceof Vector) return this.lerp(x.x, x.y, x.z)
-    this.x += (x - this.x) * amount
-    this.y += (y - this.y) * amount
-    this.x += (x - this.x) * amount
+  lerp(vec: Vector, percent?: number): Vector
+  lerp(x: number, y: number, z?: number, percent?: number): Vector
+  lerp(x: any = 0, y: number = 0, z: number = 0, percent = 0.5): Vector {
+    if (x instanceof Vector) return this.lerp(x.x, x.y, x.z, y || 0.5)
+    // https://en.wikipedia.org/wiki/Linear_interpolation#Programming_language_support
+    this.x += percent * (x - this.x)
+    this.y += percent * (y - this.y)
+    this.z += percent * (z - this.z)
     return this
   }
 
