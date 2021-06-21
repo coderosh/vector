@@ -1,7 +1,7 @@
 {
   "name": "@coderosh/vector",
   "version": "1.0.0",
-  "description": "",
+  "description": "2D and 3D Vector class for game development and physics simulations",
   "main": "dist/index.js",
   "scripts": {
     "watch": "tsc -w",

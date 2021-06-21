@@ -9,8 +9,8 @@ describe('Vector.add', () => {
 
   it('should add two vectors when args are coordinates', () => {
     const vec = new Vector(2, 3, 4)
-    vec.add(4, 5, 6)
-    expect({ x: vec.x, y: vec.y, z: vec.z }).toEqual({ x: 6, y: 8, z: 10 })
+    vec.add(0, 5, 6)
+    expect({ x: vec.x, y: vec.y, z: vec.z }).toEqual({ x: 2, y: 8, z: 10 })
   })
 })
 
@@ -23,8 +23,8 @@ describe('Vector.sub', () => {
 
   it('should substract two vectors when args are coordinates', () => {
     const vec = new Vector(2, 3, 4)
-    vec.sub(4, 5, 6)
-    expect({ x: vec.x, y: vec.y, z: vec.z }).toEqual({ x: -2, y: -2, z: -2 })
+    vec.sub(0, 5, 6)
+    expect({ x: vec.x, y: vec.y, z: vec.z }).toEqual({ x: 2, y: -2, z: -2 })
   })
 })
 
@@ -52,7 +52,7 @@ describe('Vector.normalize', () => {
   it('should normalize the vector', () => {
     const vec = new Vector(5, 2, 4)
     vec.normalize()
-    expect(vec.lenSqr()).toEqual(1)
+    expect(vec.len()).toEqual(1)
   })
 })
 
@@ -112,10 +112,54 @@ describe('Vector.lerp', () => {
   })
 })
 
+describe('Vector.slerp', () => {
+  it('should spherical linear interpolate vectors when arg is vector', () => {
+    const vec = new Vector(1, 0, 0)
+    vec.slerp(new Vector(0, 1, 0), 0.5)
+    expect({
+      x: vec.x.toPrecision(3),
+      y: vec.y.toPrecision(3),
+      z: vec.z.toPrecision(3),
+    }).toEqual({ x: '0.707', y: '0.707', z: '0.00' })
+  })
+
+  it('should spherical linear interpolate vectors when args are coordinates', () => {
+    const vec = new Vector(1, 0, 0)
+    vec.slerp(0, 1, 0, 0.5)
+    expect({
+      x: vec.x.toPrecision(3),
+      y: vec.y.toPrecision(3),
+      z: vec.z.toPrecision(3),
+    }).toEqual({ x: '0.707', y: '0.707', z: '0.00' })
+  })
+})
+
+describe('Vector.nlerp', () => {
+  it('should linear interpolate and normalize vectors wheren arg is vector', () => {
+    const vec = new Vector(1, 0, 0)
+    vec.nlerp(new Vector(0, 1, 0), 0.5)
+    expect({
+      x: vec.x.toPrecision(3),
+      y: vec.y.toPrecision(3),
+      z: vec.z.toPrecision(3),
+    }).toEqual({ x: '0.707', y: '0.707', z: '0.00' })
+  })
+
+  it('should linear interpolate and normalize vectors wheren args are coordinate', () => {
+    const vec = new Vector(1, 0, 0)
+    vec.nlerp(0, 1, 0, 0.5)
+    expect({
+      x: vec.x.toPrecision(3),
+      y: vec.y.toPrecision(3),
+      z: vec.z.toPrecision(3),
+    }).toEqual({ x: '0.707', y: '0.707', z: '0.00' })
+  })
+})
+
 describe('Vector.copy', () => {
   it('should copy the vector with same coords', () => {
     const vec = new Vector(undefined, 1, 2)
-    const newVec = vec.copy
+    const newVec = vec.copy()
     expect(vec).not.toBe(newVec)
     expect(vec.equals(newVec)).toBe(true)
   })

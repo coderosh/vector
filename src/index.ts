@@ -1,3 +1,6 @@
+const clamp = (num: number, min: number, max: number) =>
+  Math.min(Math.max(num, min), max)
+
 class Vector {
   public x: number
   public y: number
@@ -62,7 +65,7 @@ class Vector {
   dist(vec: Vector): number
   dist(x: number, y: number, z?: number): number
   dist(x: any = 0, y: number = 0, z: number = 0): number {
-    if (x instanceof Vector) return x.copy.sub(this).len()
+    if (x instanceof Vector) return x.copy().sub(this).len()
     return this.dist(new Vector(x, y, z))
   }
 
@@ -80,11 +83,11 @@ class Vector {
     return this.x * x + this.y * y + this.z * z
   }
 
+  // https://www.geeksforgeeks.org/program-dot-product-cross-product-two-vector
   cross(vec: Vector): Vector
   cross(x: number, y: number, z?: number): Vector
   cross(x: any = 0, y: number = 0, z: number = 0): Vector {
     if (x instanceof Vector) return this.cross(x.x, x.y, x.z)
-    // https://www.geeksforgeeks.org/program-dot-product-cross-product-two-vector/
     return new Vector(
       this.y * z - this.z * y,
       this.z * x - this.x * z,
@@ -92,18 +95,40 @@ class Vector {
     )
   }
 
+  // https://keithmaggio.wordpress.com/2011/02/15/math-magician-lerp-slerp-and-nlerp
   lerp(vec: Vector, percent?: number): Vector
   lerp(x: number, y: number, z?: number, percent?: number): Vector
   lerp(x: any = 0, y: number = 0, z: number = 0, percent = 0.5): Vector {
     if (x instanceof Vector) return this.lerp(x.x, x.y, x.z, y || 0.5)
-    // https://en.wikipedia.org/wiki/Linear_interpolation#Programming_language_support
     this.x += percent * (x - this.x)
     this.y += percent * (y - this.y)
     this.z += percent * (z - this.z)
     return this
   }
 
-  get copy() {
+  slerp(vec: Vector, percent?: number): Vector
+  slerp(x: number, y: number, z?: number, percent?: number): Vector
+  slerp(x: any = 0, y: number = 0, z: number = 0, percent = 0.5): Vector {
+    if (!(x instanceof Vector)) return this.slerp(new Vector(x, y, z), percent)
+    let dot = this.dot(x)
+    dot = clamp(dot, -1, 1)
+    const theta = Math.acos(dot) * (y || 0.5)
+    const relativeVec = x.copy().sub(this.copy().scale(dot))
+    relativeVec.normalize()
+    this.x = this.x * Math.cos(theta) + relativeVec.x * Math.sin(theta)
+    this.y = this.y * Math.cos(theta) + relativeVec.y * Math.sin(theta)
+    this.z = this.z * Math.cos(theta) + relativeVec.z * Math.sin(theta)
+    return this
+  }
+
+  nlerp(vec: Vector, percent?: number): Vector
+  nlerp(x: number, y: number, z?: number, percent?: number): Vector
+  nlerp(x: any = 0, y: number = 0, z: number = 0, percent = 0.5) {
+    if (!(x instanceof Vector)) return this.nlerp(new Vector(x, y, z), percent)
+    return this.lerp(x, y || 0.5).normalize()
+  }
+
+  copy() {
     return new Vector(this)
   }
 }
