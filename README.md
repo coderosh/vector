@@ -1,6 +1,6 @@
 # vector
 
-A 2D/3D `Vector` class for game development and physics simulations.
+2D and 3D Vector classes for game development and physics simulations.
 
 <a href="https://www.npmjs.com/package/@coderosh/vector"><img alt="NPM" src="https://img.shields.io/npm/v/@coderosh/vector" /></a>
 <a href="https://github.com/coderosh/vector"><img alt="MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
@@ -25,32 +25,31 @@ yarn add @coderosh/vector
 ## Usage
 
 ```js
-const Vector = require('@coderosh/vector')
-// OR import Vector from '@coderosh/vector'
+import { Vector2D, Vector3D } from '@coderosh/vector'
 
 /* 3D Vector */
-new Vector(1, 4, 1)
+new Vector3D(1, 4, 1)
 
 /* 2D Vector */
-new Vector(1, 3)
+new Vector2D(1, 3)
 ```
 
 ## Available methods
 
-- [add](#add)
-- [sub](#sub)
-- [scale](#scale)
-- [lerp](#lerp)
-- [slerp](#slerp)
-- [nlerp](#nlerp)
-- [lenSqr](#lenSqr)
-- [len](#len)
-- [dist](#dist)
-- [normalize](#normalize)
-- [equals](#equals)
-- [copy](#copy)
-- [dot](#dot)
-- [cross](#cross)
+- [add](#add) - 2D and 3D
+- [sub](#sub) - 2D and 3D
+- [scale](#scale) - 2D and 3D
+- [lerp](#lerp) - 2D and 3D
+- [slerp](#slerp) - 3D only
+- [nlerp](#nlerp) - 2D and 3D
+- [lenSqr](#lenSqr) - 2D and 3D
+- [len](#len) - 2D and 3D
+- [dist](#dist) - 2D and 3D
+- [normalize](#normalize) - 2D and 3D
+- [equals](#equals) - 2D and 3D
+- [copy](#copy) - 2D and 3D
+- [dot](#dot) - 2D and 3D
+- [cross](#cross) - 3D only
 
 ## Documentation
 
@@ -59,12 +58,13 @@ new Vector(1, 3)
 Adds two vectors
 
 ```js
-const vec = new Vector(1, 2, 3)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.add(4, 5, 6)
+vec3d.add(new Vector3D(4, 5, 6))
 
-vec.add(4, 5, 6) // (5, 7, 9)
-
-// OR
-vec.add(new Vector(4, 5, 6)) // (5, 7, 9)
+const vec2d = new Vector2D(1, 2)
+vec2d.add(4, 5)
+vec2d.add(new Vector2D(4, 5))
 ```
 
 ### sub
@@ -72,10 +72,13 @@ vec.add(new Vector(4, 5, 6)) // (5, 7, 9)
 Substracts two vectors
 
 ```js
-const vec = new Vector(0, 5, 6)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.sub(4, 5, 6)
+vec3d.sub(new Vector3D(4, 5, 6))
 
-vec.sub(1, 2, 3) // (-1, 3, 3)
-vec.sub(new Vector(1, 2, 3)) // (-1, 3, 3)
+const vec2d = new Vector2D(1, 2)
+vec2d.sub(4, 5)
+vec2d.sub(new Vector2D(4, 5))
 ```
 
 ### scale
@@ -83,9 +86,11 @@ vec.sub(new Vector(1, 2, 3)) // (-1, 3, 3)
 Multiply a vector by a scalar factor
 
 ```js
-const vec = new Vector(1, 2, 3)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.scale(2)
 
-vec.scale(3) // (3, 6, 9)
+const vec2d = new Vector2D(1, 2)
+vec2d.scale(2)
 ```
 
 ### lenSqr
@@ -93,9 +98,11 @@ vec.scale(3) // (3, 6, 9)
 Square of length of vector
 
 ```js
-const vec = new Vector(2, 2, 1)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.lenSqr()
 
-vec.lenSqr() // 9
+const vec2d = new Vector2D(1, 2)
+vec2d.lenSqr()
 ```
 
 ### len
@@ -103,9 +110,11 @@ vec.lenSqr() // 9
 Length of vector
 
 ```js
-const vec = new Vector(2, 2, 1)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.len()
 
-vec.len() // 3
+const vec2d = new Vector2D(1, 2)
+vec2d.len()
 ```
 
 ### normalize
@@ -113,10 +122,11 @@ vec.len() // 3
 Normalize the vector
 
 ```js
-const vec = new Vector(5, 2, 4)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.normalize()
 
-vec.normalize()
-vec.len() // 1
+const vec2d = new Vector2D(1, 2)
+vec2d.normalize()
 ```
 
 ### dist
@@ -124,12 +134,13 @@ vec.len() // 1
 Calculate distance between two vectors
 
 ```js
-const vec = new Vector(1, 2, 3)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.dist(5, 2, 3)
+vec3d.dist(new Vector3D(5, 2, 3))
 
-vec.dist(1, 2, 4) // 1
-
-// OR
-vec.dist(new Vector(1, 2, 4)) // 1
+const vec2d = new Vector2D(1, 2)
+vec2d.dist(5, 2)
+vec2d.dist(new Vector2D(5, 2))
 ```
 
 ### equals
@@ -137,12 +148,13 @@ vec.dist(new Vector(1, 2, 4)) // 1
 Check if two vectors have same coordinates
 
 ```js
-const vec = new Vector(1, 2, 3)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.equals(1, 2, 3)
+vec3d.equals(new Vector3D(1, 2, 3))
 
-vec.equals(new Vector(1, 2, 3)) // true
-
-// OR
-vec.equals(1, 2, 3) // true
+const vec2d = new Vector2D(1, 2)
+vec2d.equals(1, 2)
+vec2d.equals(new Vector2D(1, 2))
 ```
 
 ### dot
@@ -150,12 +162,13 @@ vec.equals(1, 2, 3) // true
 Returns dot product of two vectors
 
 ```js
-const vec = new Vector(1, 2, 3)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.dot(1, 1, 2)
+vec3d.dot(new Vector3D(1, 1, 2))
 
-vec.dot(1, 1, 2) // 9
-
-// OR
-vec.dot(new Vector(1, 1, 2)) // 9
+const vec2d = new Vector2D(1, 2)
+vec2d.dot(4, 2)
+vec2d.dot(new Vector2D(4, 2))
 ```
 
 ### cross
@@ -163,12 +176,9 @@ vec.dot(new Vector(1, 1, 2)) // 9
 Returns cross product of two vectors
 
 ```js
-const vec = new Vector(1, 2, 3)
-
-vec.cross(1, 2, 4) // (2, -1, 0)
-
-// OR
-vec.cross(new Vector(1, 2, 4)) // (2, -1, 0)
+const vec = new Vector3D(1, 2, 3)
+vec.cross(1, 2, 4)
+vec.cross(new Vector3D(1, 2, 4))
 ```
 
 ### lerp
@@ -176,12 +186,13 @@ vec.cross(new Vector(1, 2, 4)) // (2, -1, 0)
 Linear interpolate vectors
 
 ```js
-const vec = new Vector(1, 2, 3)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.lerp(1, 1, 2, 0.1)
+vec3d.lerp(new Vector3D(1, 1, 2), 0.1)
 
-vec.lerp(new Vector(4, 1, 4), 0.1) // (1.3, 1.9, 3.1)
-
-// OR
-vec.lerp(4, 1, 4, 0.1) // (1.3, 1.9, 3.1)
+const vec2d = new Vector2D(1, 2)
+vec2d.lerp(4, 2, 0.1)
+vec2d.lerp(new Vector2D(4, 2), 0.1)
 ```
 
 ### slerp
@@ -189,11 +200,9 @@ vec.lerp(4, 1, 4, 0.1) // (1.3, 1.9, 3.1)
 Spherical linear interpolate vectors
 
 ```js
-const vec = new Vector(1, 0, 0)
-vec.slerp(new Vector(0, 1, 0), 0.5) // (0.707..., 0.707..., 0)
-
-// OR
-vec.slerp(0, 1, 0, 0.5) // (0.707..., 0.707..., 0)
+const vec = new Vector3D(1, 0, 0)
+vec.slerp(new Vector3D(0, 1, 0), 0.5)
+vec.slerp(0, 1, 0, 0.5)
 ```
 
 ### nlerp
@@ -201,22 +210,25 @@ vec.slerp(0, 1, 0, 0.5) // (0.707..., 0.707..., 0)
 Linear interpolate vectors and normalize
 
 ```js
-const vec = new Vector(1, 0, 0)
-vec.nlerp(new Vector(0, 1, 0), 0.5) // (0.707..., 0.707..., 0)
+const vec3d = new Vector3D(1, 2, 3)
+vec3d.nlerp(1, 1, 2, 0.1)
+vec3d.nlerp(new Vector3D(1, 1, 2), 0.1)
 
-// OR
-vec.nlerp(0, 1, 0, 0.5) // (0.707..., 0.707..., 0)
+const vec2d = new Vector2D(1, 2)
+vec2d.nlerp(4, 2, 0.1)
+vec2d.nlerp(new Vector2D(4, 2), 0.1)
 ```
 
 ### copy
 
 ```js
-const vec = new Vector(1, 2, 3)
+const vec3d = new Vector3D(1, 2, 3)
+const newVec3d = vec3d.copy()
+const newVec3d_ = new Vector(vec3d)
 
-const newVec = vec.copy() // (1, 2, 3)
-
-// OR
-const newVec = new Vector(vec) // (1, 2, 3)
+const vec2d = new Vector3D(1, 2, 3)
+const newVec2d = vec2d.copy()
+const newVec2d_ = new Vector(vec2d)
 ```
 
 ## LICENSE
